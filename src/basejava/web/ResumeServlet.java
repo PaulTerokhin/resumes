@@ -6,12 +6,15 @@ import basejava.storage.Storage;
 import basejava.util.DateUtil;
 import basejava.util.HtmlUtil;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -87,12 +90,19 @@ public class ResumeServlet extends HttpServlet {
                 }
             }
         }
-        if (isCreate) {
-            storage.save(r);
+        if (!HtmlUtil.isEmpty(fullName)) {
+            if (isCreate) {
+                storage.save(r);
+            } else {
+                storage.update(r);
+            }
+            response.sendRedirect("resume");
         } else {
-            storage.update(r);
+            String errorMessage = "Имя не может быть пустым";
+            response.sendRedirect("/WEB-INF/jsp/edit.jsp" + URLEncoder.encode(errorMessage, "UTF-8"));
         }
-        response.sendRedirect("resume");
+
+
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

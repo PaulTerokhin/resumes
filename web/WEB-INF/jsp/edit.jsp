@@ -19,7 +19,7 @@
     <input type="hidden" name="uuid" value="${resume.uuid}">
     <h1>Имя:</h1>
     <dl>
-      <input type="text" name="fullName" size=55 value="${resume.fullName}">
+      <input type="text" name="fullName" size=55 value="${resume.fullName}" required>
     </dl>
     <h2>Контакты:</h2>
     <c:forEach var="type" items="<%=ContactType.values()%>">
@@ -35,25 +35,26 @@
       <h2><a>${type.title}</a></h2>
       <c:choose>
         <c:when test="${type=='OBJECTIVE'}">
-          <input type='text' name='${type}' size=75 value='<%=section%>'>
+          <input type='text' name='${type}' size=75 value='<%=section%>' required>
         </c:when>
         <c:when test="${type=='PERSONAL'}">
-          <textarea name='${type}' cols=75 rows=5><%=section%></textarea>
+          <textarea name='${type}' cols=75 rows=5 required><%=section%></textarea>
         </c:when>
         <c:when test="${type=='QUALIFICATIONS' || type=='ACHIEVEMENT'}">
                     <textarea name='${type}' cols=75
-                              rows=5><%=String.join("\n", ((ListSection) section).getItems())%></textarea>
+                              rows=5 required><%=String.join("\n", ((ListSection) section).getItems())%> </textarea>
         </c:when>
         <c:when test="${type=='EXPERIENCE' || type=='EDUCATION'}">
           <c:forEach var="org" items="<%=((OrganizationSection) section).getOrganizations()%>"
                      varStatus="counter">
             <dl>
               <dt>Название учереждения:</dt>
-              <dd><input type="text" name='${type}' size=100 value="${org.homePage.name}"></dd>
+              <dd><input type="text" name='${type}' size=100 value="${org.homePage.name}" ></dd>
             </dl>
             <dl>
               <dt>Сайт учереждения:</dt>
               <dd><input type="text" name='${type}url' size=100 value="${org.homePage.url}"></dd>
+
               </dd>
             </dl>
             <br>
